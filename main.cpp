@@ -21,9 +21,9 @@ int main(int argc, char *argv[])
 //    MainWindow w;
 //    TestDrawWgt w;
 //    DialPlateWgt w;
-    WelcomeWidget w;
-    w.show();
-//    GradientColumnWgt::get_instance()->show();
+//    WelcomeWidget w;
+//    w.show();
+    GradientColumnWgt::get_instance()->show();
 
     return a.exec();
 }
