@@ -39,6 +39,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         mousetracer.cpp \
+        pathtohit.cpp \
         qcustomplot.cpp \
         qcustomplotex.cpp \
         testdrawwgt.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
         leftwidget.h \
         mainwindow.h \
         mousetracer.h \
+        pathtohit.h \
         qcustomplot.h \
         qcustomplotex.h \
         testdrawwgt.h \

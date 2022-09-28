@@ -5,6 +5,7 @@
 #include "dialplatewgt.h"
 #include "gradientcolumnwgt.h"
 #include "welcomewidget.h"
+#include "pathtohit.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -18,12 +19,13 @@ int main(int argc, char *argv[])
         qApp->setStyleSheet(qss);
         file.close();
     }
-//    MainWindow w;
+    MainWindow w;
 //    TestDrawWgt w;
 //    DialPlateWgt w;
 //    WelcomeWidget w;
-//    w.show();
-    GradientColumnWgt::get_instance()->show();
+//    PathToHit w;
+    w.show();
+//    GradientColumnWgt::get_instance()->show();
 
     return a.exec();
 }

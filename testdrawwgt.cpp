@@ -36,7 +36,7 @@ void TestDrawWgt::paintEvent(QPaintEvent *event)
     path.moveTo(300.0,200.0);
     path.arcTo(200.0,0.0,200.0,200.0,270.0,-90.0);
 //    painter.drawPath(path);
-    painter.fillPath(path,QBrush(QColor(255,0,0,100)));
+    painter.fillPath(path,QBrush(QColor(255,0,0,150)));
 
 //    QPolygonF plyg1,plyg2;
 //    plyg1<<QPointF(10,10)<<QPointF(110,10)<<QPointF(110,110)<<QPointF(10,110);
