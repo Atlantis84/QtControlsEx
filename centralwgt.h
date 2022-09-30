@@ -47,6 +47,9 @@ signals:
 
 public slots:
     void slot_real_data();
+
+    void xAxisChanged(QCPRange range);
+    void yAxisChanged(QCPRange range);
 };
 
 #endif // CENTRALWGT_H

@@ -24,19 +24,20 @@ CentralWgt::CentralWgt(QWidget *parent) : QWidget(parent)
     QWidget* bassWgt1 = new QWidget();
     LeftWidget* lftWgt = new LeftWidget();
     DynamicLabel* dynamicLabel = new DynamicLabel();
-    hBox1->addWidget(bassWgt);
-    hBox3->addWidget(lftWgt);
-    hBox3->addWidget(dynamicLabel);
-    vAll->addLayout(hBox1);
-    vAll->addLayout(hBox3);
-    this->setLayout(vAll);
+//    hBox1->addWidget(bassWgt);
+//    hBox3->addWidget(lftWgt);
+//    hBox3->addWidget(dynamicLabel);
+//    vAll->addLayout(hBox1);
+//    vAll->addLayout(hBox3);
+//    this->setLayout(vAll);
 
-//    hBox2->addWidget(get_realtime_plot());
-//    hBox4->addWidget(get_water_fall_plot());
-//    vAll->addLayout(hBox2);
-//    vAll->addLayout(hBox4);
-//    connect(&m_pTimer,SIGNAL(timeout()),this,SLOT(slot_real_data()));
-//    m_pTimer.start(100);
+    hBox2->addWidget(get_realtime_plot());
+    hBox4->addWidget(get_water_fall_plot());
+    vAll->addLayout(hBox2);
+    vAll->addLayout(hBox4);
+    connect(&m_pTimer,SIGNAL(timeout()),this,SLOT(slot_real_data()));
+    m_pTimer.start(100);
+    this->setLayout(vAll);
 }
 
 void CentralWgt::paintEvent(QPaintEvent *event)
@@ -53,7 +54,7 @@ QCustomPlotEx *CentralWgt::get_realtime_plot()
     {
         m_customPlot = new QCustomPlotEx();
 
-        m_customPlot->setBackground(QBrush(QColor(5,25,55)));
+        m_customPlot->setBackground(QBrush(QColor(100,25,55)));
 
         m_customPlot->xAxis->setBasePen(QPen(QColor(255,255,255)));
         m_customPlot->xAxis->setTickPen(QPen(QColor(255,255,255)));
@@ -97,12 +98,14 @@ QCustomPlotEx *CentralWgt::get_realtime_plot()
     m_customPlot->graph()->setPen(QColor(0,255,0));
     m_customPlot->showSS(true);
 
-    connect(m_customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), m_customPlot->xAxis2, SLOT(setRange(QCPRange)));
-    connect(m_customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), m_customPlot->yAxis2, SLOT(setRange(QCPRange)));
+//    connect(m_customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), m_customPlot->xAxis2, SLOT(setRange(QCPRange)));
+//    connect(m_customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), m_customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
-    m_customPlot->xAxis->setRange(-200.0,200.0);
+    m_customPlot->xAxis->setRange(0.0,1024.0);
     m_customPlot->yAxis->setRange(-200.0,200.0);
-    m_customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom/* | QCP::iSelectPlottables*/);
+    m_customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+
+    connect(m_customPlot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
 
     return m_customPlot;
 }
@@ -113,7 +116,7 @@ QCustomPlotEx *CentralWgt::get_water_fall_plot()
     if(customPlot == nullptr)
     {
         customPlot = new QCustomPlotEx();
-        customPlot->setBackground(QBrush(QColor(5,25,55)));
+        customPlot->setBackground(QBrush(QColor(100,25,55)));
 
         customPlot->xAxis->setBasePen(QPen(QColor(255,255,255)));
         customPlot->xAxis->setTickPen(QPen(QColor(255,255,255)));
@@ -142,6 +145,7 @@ QCustomPlotEx *CentralWgt::get_water_fall_plot()
     customPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom); // this will also allow rescaling the color scale by dragging/zooming
     customPlot->axisRect()->setupFullAxesBox(true);
     customPlot->xAxis->setLabel("x");
+    customPlot->xAxis->setRange(0,1024);
     customPlot->yAxis->setLabel("y");
 
     int nx = 1024;
@@ -204,7 +208,7 @@ void CentralWgt::refresh_water_fall(double data[1024])
     }
 
     // rescale the key (x) and value (y) axes so the whole color map is visible:
-    customPlot->rescaleAxes();
+//    customPlot->rescaleAxes();
     customPlot->yAxis->setRange(count,count+5);
 
     customPlot->replot();
@@ -251,4 +255,15 @@ void CentralWgt::slot_real_data()
     m_customPlot->replot();
 
     refresh_water_fall(tmpData);
+}
+
+void CentralWgt::xAxisChanged(QCPRange range)
+{
+    customPlot->xAxis->setRange(range);
+    customPlot->replot();
+}
+
+void CentralWgt::yAxisChanged(QCPRange range)
+{
+
 }
